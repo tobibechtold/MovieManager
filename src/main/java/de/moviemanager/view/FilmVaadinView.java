@@ -1,6 +1,7 @@
 package de.moviemanager.view;
 
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import de.moviemanager.control.FilmController;
 import de.moviemanager.model.Film;
@@ -10,7 +11,7 @@ import de.moviemanager.model.Format;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FilmVaadinView extends HorizontalLayout implements FilmView {
+public class FilmVaadinView extends VerticalLayout implements FilmView {
 
     private FilmController filmController;
     private Grid grid;
@@ -24,8 +25,7 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
     private void init() {
         container = new BeanItemContainer<>(Film.class, new ArrayList<>());
         grid = new Grid(container);
-        grid.setHeight(500.0f, Unit.PIXELS);
-        grid.setWidth(800.0f, Unit.PIXELS);
+        grid.setWidth(100.0f, Unit.PERCENTAGE);
         grid.setColumnOrder("title", "format", "rating", "comment");
         Button buttonAdd = new Button("Hinzufügen");
         buttonAdd.addStyleName("primary");
@@ -51,14 +51,14 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
             }
         });
 
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.addComponent(buttonAdd);
-        verticalLayout.addComponent(buttonDelete);
-        verticalLayout.setSizeUndefined();
-        verticalLayout.setSpacing(true);
-        verticalLayout.setMargin(true);
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.addComponent(buttonAdd);
+        horizontalLayout.addComponent(buttonDelete);
+        horizontalLayout.setSizeUndefined();
+        horizontalLayout.setSpacing(true);
+        horizontalLayout.setMargin(true);
         addComponent(grid);
-        addComponent(verticalLayout);
+        addComponent(horizontalLayout);
         setSizeFull();
         showFilms();
     }
