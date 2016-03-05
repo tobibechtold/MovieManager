@@ -28,6 +28,7 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
         grid.setWidth(800.0f, Unit.PIXELS);
         grid.setColumnOrder("title", "format", "rating", "comment");
         Button buttonAdd = new Button("Hinzufügen");
+        buttonAdd.addStyleName("primary");
         buttonAdd.addClickListener(new Button.ClickListener() {
 
             @Override
@@ -35,8 +36,29 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
                 showAddWindow();
             }
         });
+
+        Button buttonDelete = new Button("Löschen");
+        buttonDelete.addStyleName("danger");
+        buttonDelete.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                if (grid.getSelectedRow() != null)
+                {
+                    Film film = (Film) grid.getSelectedRow();
+                    deleteFilm(film);
+                    showFilms();
+                }
+            }
+        });
+
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.addComponent(buttonAdd);
+        verticalLayout.addComponent(buttonDelete);
+        verticalLayout.setSizeUndefined();
+        verticalLayout.setSpacing(true);
+        verticalLayout.setMargin(true);
         addComponent(grid);
-        addComponent(buttonAdd);
+        addComponent(verticalLayout);
         setSizeFull();
         showFilms();
     }
