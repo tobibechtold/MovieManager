@@ -65,13 +65,20 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 String titel = textTitel.getValue();
-                String rating = textRating.getValue();
+                int rating = 0;
+                try {
+                    rating = Integer.parseInt(textRating.getValue());
+                }
+                catch (Exception e)
+                {
+                    rating = 0;
+                }
                 Format format = (Format) comboFormat.getValue();
                 String comment = textComment.getValue();
 
                 FilmBuilder filmBuilder = new FilmBuilder();
                 Film film = filmBuilder//
-                        .rating(Integer.parseInt(rating))//
+                        .rating(rating)//
                         .title(titel)//
                         .format(format)//
                         .comment(comment)//
