@@ -10,7 +10,7 @@ import de.moviemanager.model.Format;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FilmVaadinView extends HorizontalLayout implements FilmView {
+public class FilmVaadinView extends VerticalLayout implements FilmView {
 
     private FilmController filmController;
     private Grid grid;
@@ -24,6 +24,8 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
     private void init() {
         container = new BeanItemContainer<>(Film.class, new ArrayList<>());
         grid = new Grid(container);
+        grid.setWidth(100.0f, Unit.PERCENTAGE);
+        grid.setColumnOrder("title", "format", "rating", "comment");
         grid.setHeight(500.0f, Unit.PIXELS);
         grid.setWidth(800.0f, Unit.PIXELS);
         grid.setColumnOrder("title", "format", "rating", "comment", "likes");
@@ -42,7 +44,8 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
         buttonDelete.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                if (grid.getSelectedRow() != null) {
+                if (grid.getSelectedRow() != null)
+                {
                     Film film = (Film) grid.getSelectedRow();
                     deleteFilm(film);
                     showFilms();
@@ -50,6 +53,12 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
             }
         });
 
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.addComponent(buttonAdd);
+        horizontalLayout.addComponent(buttonDelete);
+        horizontalLayout.setSizeUndefined();
+        horizontalLayout.setSpacing(true);
+        horizontalLayout.setMargin(true);
         Button buttonLike = new Button("Gefällt mir!");
         buttonLike.addStyleName("friendly");
         buttonLike.addClickListener(new Button.ClickListener() {
@@ -71,7 +80,7 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
         verticalLayout.setSpacing(true);
         verticalLayout.setMargin(true);
         addComponent(grid);
-        addComponent(verticalLayout);
+        addComponent(horizontalLayout);
         setSizeFull();
         showFilms();
     }
@@ -103,7 +112,9 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
                 int rating = 0;
                 try {
                     rating = Integer.parseInt(textRating.getValue());
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     rating = 0;
                 }
                 Format format = (Format) comboFormat.getValue();
@@ -135,7 +146,6 @@ public class FilmVaadinView extends HorizontalLayout implements FilmView {
         container.removeAllItems();
         container.addAll(films);
     }
-
 
     @Override
     public void deleteFilm(Film film) {
