@@ -25,9 +25,6 @@ public class FilmVaadinView extends VerticalLayout implements FilmView {
         container = new BeanItemContainer<>(Film.class, new ArrayList<>());
         grid = new Grid(container);
         grid.setWidth(100.0f, Unit.PERCENTAGE);
-        grid.setColumnOrder("title", "format", "rating", "comment");
-        grid.setHeight(500.0f, Unit.PIXELS);
-        grid.setWidth(800.0f, Unit.PIXELS);
         grid.setColumnOrder("title", "format", "rating", "comment", "likes");
         Button buttonAdd = new Button("Hinzufügen");
         buttonAdd.addStyleName("primary");
@@ -44,8 +41,7 @@ public class FilmVaadinView extends VerticalLayout implements FilmView {
         buttonDelete.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                if (grid.getSelectedRow() != null)
-                {
+                if (grid.getSelectedRow() != null) {
                     Film film = (Film) grid.getSelectedRow();
                     deleteFilm(film);
                     showFilms();
@@ -53,12 +49,6 @@ public class FilmVaadinView extends VerticalLayout implements FilmView {
             }
         });
 
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.addComponent(buttonAdd);
-        horizontalLayout.addComponent(buttonDelete);
-        horizontalLayout.setSizeUndefined();
-        horizontalLayout.setSpacing(true);
-        horizontalLayout.setMargin(true);
         Button buttonLike = new Button("Gefällt mir!");
         buttonLike.addStyleName("friendly");
         buttonLike.addClickListener(new Button.ClickListener() {
@@ -71,14 +61,14 @@ public class FilmVaadinView extends VerticalLayout implements FilmView {
                 }
             }
         });
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.addComponent(buttonAdd);
+        horizontalLayout.addComponent(buttonDelete);
+        horizontalLayout.addComponent(buttonLike);
+        horizontalLayout.setSizeUndefined();
+        horizontalLayout.setSpacing(true);
+        horizontalLayout.setMargin(true);
 
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.addComponent(buttonAdd);
-        verticalLayout.addComponent(buttonDelete);
-        verticalLayout.addComponent(buttonLike);
-        verticalLayout.setSizeUndefined();
-        verticalLayout.setSpacing(true);
-        verticalLayout.setMargin(true);
         addComponent(grid);
         addComponent(horizontalLayout);
         setSizeFull();
@@ -112,9 +102,7 @@ public class FilmVaadinView extends VerticalLayout implements FilmView {
                 int rating = 0;
                 try {
                     rating = Integer.parseInt(textRating.getValue());
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     rating = 0;
                 }
                 Format format = (Format) comboFormat.getValue();
